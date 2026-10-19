@@ -9,7 +9,14 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+## Accessing the variables from roboshop-v1 to mongodb
 
+source ./roboshop-v1.sh
+
+echo "Hosted Zone Id:$hosted_zone_id" 
+echo "Domain name:$domain_name"
+
+## 
 
 if [ $user_id -ne 0 ]; then
     echo "Plse choose sudo access to.."
