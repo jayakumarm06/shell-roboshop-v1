@@ -46,7 +46,8 @@ validate $? "Installing Rabbitmq server"
 systemctl enable rabbitmq-server &>> $logs_file
 systemctl start rabbitmq-server &>> $logs_file
 validate $? "enable and start Rabbitmq server"
-
+###
+##script idempotent, meaning you can run it multiple times without failing when the user already exists.
 rabbitmqctl list_users | grep -w roboshop  &>/dev/null
 if [ $? -ne 0 ]; then
    echo "create a new user"
