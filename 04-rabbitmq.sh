@@ -35,20 +35,20 @@ validate(){
 
 echo "$(timestamp) [INFO] ===== Script Started Execution =======" | tee -a $logs_file
 
-# $>> $logs_file
+# &>> $logs_file
 
 cp rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
 validate $? "Adding Rabbitmq repo"
 
-dnf install erlang rabbitmq-server -y $>> $logs_file
+dnf install erlang rabbitmq-server -y &>> $logs_file
 validate $? "Installing Rabbitmq server"
 
-systemctl enable rabbitmq-server $>> $logs_file
-systemctl start rabbitmq-server $>> $logs_file
+systemctl enable rabbitmq-server &>> $logs_file
+systemctl start rabbitmq-server &>> $logs_file
 validate $? "enable and start Rabbitmq server"
 
-rabbitmqctl add_user roboshop roboshop123 $>> $logs_file
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" $>> $logs_file
+rabbitmqctl add_user roboshop roboshop123 &>> $logs_file
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $logs_file
 validate $? "creating  user and set permissions for Rabbitmq  roboshop"
 
 #Here SECONDS is built in variables easy to use 
