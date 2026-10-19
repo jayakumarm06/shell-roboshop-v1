@@ -50,11 +50,11 @@ validate $? "enable and start Rabbitmq server"
 rabbitmqctl add_user roboshop roboshop123 &>> $logs_file
 if [ $? -ne 0 ]; then
    echo "the use already existst"
-   exit 1
 else  
    echo "creating user"
    rabbitmqctl add_user roboshop roboshop123 &>> $logs_file
    rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $logs_file
+   validate $? "creating  user and set permissions for Rabbitmq  roboshop"
     
 fi
 # rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $logs_file
