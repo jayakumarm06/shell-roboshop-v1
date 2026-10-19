@@ -49,7 +49,7 @@ mkdir /app &>> $logs_file
 curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip &>> $logs_file
 cd /app &>> $logs_file
 unzip /tmp/catalogue.zip &>> $logs_file
-validate $? "Create folder app and download the zip project file"
+validate $? "Create folder app and download the unzip project file"
 
 cd /app &>> $logs_file
 npm install &>> $logs_file
@@ -80,7 +80,7 @@ systemctl enable catalogue &>> $logs_file
 systemctl start catalogue
 validate $? "Reload and enable,start the catalogue service"
 
-curl http://localhost:8080/health  &>> $logs_file
+curl http://localhost:8080/health  | tee -a $logs_file
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
