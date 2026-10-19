@@ -48,8 +48,17 @@ systemctl start rabbitmq-server &>> $logs_file
 validate $? "enable and start Rabbitmq server"
 
 rabbitmqctl add_user roboshop roboshop123 &>> $logs_file
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $logs_file
-validate $? "creating  user and set permissions for Rabbitmq  roboshop"
+if [ $? -ne 0 ]; then
+   echo "the use already existst"
+   exit 1
+else  
+   echo "creating user"
+   rabbitmqctl add_user roboshop roboshop123 &>> $logs_file
+   rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $logs_file
+    
+fi
+# rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $logs_file
+# validate $? "creating  user and set permissions for Rabbitmq  roboshop"
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
