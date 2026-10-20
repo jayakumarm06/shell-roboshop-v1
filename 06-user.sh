@@ -12,7 +12,7 @@ N="\e[0m"
 
 echo "++++++++++++++++++++++"
 # 06-user.sh
-echo "$(basename "$0" | cut -d'.' -f1)"
+echo "$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)"
 
 echo "+++++++++++++++++++++++"
 ## Accessing the variables from roboshop-v1 to mongodb
