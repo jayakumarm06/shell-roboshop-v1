@@ -10,22 +10,28 @@ Y="\e[33m"
 N="\e[0m"
 
 
+echo "++++++++++++++++++++++"
+echo "${0}"
+echo "+++++++++++++++++++++++"
 ## Accessing the variables from roboshop-v1 to mongodb
 
 source ./roboshop-v1.sh
 
 echo "Hosted Zone Id:$hosted_zone_id" 
 echo "Domain name:$domain_name"
-for domain in $@
-do
-    echo "Domain:$domain"
-    # if [ $domain eq "mongodb" && $domain eq "redis"]; then
-    #     d_name=$(aws route53 list-resource-record-sets --hosted-zone-id Z1021048SZZN7EVRRJKA --output json | jq '.ResourceRecordSets[] | select(.Name | contains("'$domain'"))')
-    #     echo "domainname:$d_name"    
-    # else
-    #     echo "no record"
-    # fi  
-done
+
+
+# for zone_id in $(aws route53 list-hosted-zones --output json | jq -r '.HostedZones[] | [.Id | sub("/hostedzone/"; ""), .Name] | @tsv' | while IFS=$'\t' read -r zone_id zone_name); do
+#     echo "Checking Hosted Zone: $zone_name ($zone_id)"
+    
+#     # Add your condition and query here
+#     if [[ "$zone_name" == *"mongodb"* ]] && [[ "$zone_name" == *"redis"* ]]; then
+#         aws route53 list-resource-record-sets --hosted-zone-id "$zone_id" --output json \
+#             | jq --arg query "mongodb" '.ResourceRecordSets[] | select(.Name | contains($query)) | {ZoneId: "'"$zone_id"'", Name: .Name, Type: .Type}'
+#     fi
+# done
+
+
 
 ## 
 
