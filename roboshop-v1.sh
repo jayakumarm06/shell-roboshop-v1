@@ -1,9 +1,9 @@
 #!/bin/bash
 
-ami_id="ami-0220d79f3f480ecf5"
+ami_id="ami-0055977a6e828a4f4"
 instance_type="t3.micro"
 domain_name="dewsecopai.online"
-hosted_zone_id="Z0970635ZY5B1QSQMM29"
+hosted_zone_id="Z1021048SZZN7EVRRJKA"
 
 
 for instance in $@
