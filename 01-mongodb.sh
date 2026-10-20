@@ -10,14 +10,14 @@ Y="\e[33m"
 N="\e[0m"
 
 
-echo "++++++++++++++++++++++"
-# 01-mongodb.sh
-# mongodb_component=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
-# echo "filename:$mongodb_component"
-mongo_component="mongodb"
-echo "filename:$mongo_component"
+# echo "++++++++++++++++++++++"
+# # 01-mongodb.sh
+# # mongodb_component=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
+# # echo "filename:$mongodb_component"
+# mongo_component="mongodb"
+# echo "filename:$mongo_component"
 
-echo "+++++++++++++++++++++++"
+# echo "+++++++++++++++++++++++"
 
 ## Accessing the variables from roboshop-v1 to mongodb
 

@@ -10,23 +10,19 @@ Y="\e[33m"
 N="\e[0m"
 
 
-echo "++++++++++++++++++++++"
-# 06-user.sh
-# user_component=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
-# echo "filename User:$user_component"
-user_component="user"
-echo "+++++++++++++++++++++++"
+# echo "++++++++++++++++++++++"
+# # 06-user.sh
+# # user_component=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
+# # echo "filename User:$user_component"
+# # user_component="user"
+# echo "+++++++++++++++++++++++"
 ## Accessing the variables from roboshop-v1 to mongodb
 
 source ./roboshop-v1.sh 
-source ./01-mongodb.sh 
-source ./02-redis.sh
 
 echo "Hosted Zone Id:$hosted_zone_id" 
 echo "Domain name:$domain_name"
-echo "Mongodb filename:$mongo_component"
-echo "redis filename:$redis_component"
-echo "user filename:$user_component"
+
 
 # for zone_id in $(aws route53 list-hosted-zones --output json | jq -r '.HostedZones[] | [.Id | sub("/hostedzone/"; ""), .Name] | @tsv' | while IFS=$'\t' read -r zone_id zone_name); do
 #     echo "Checking Hosted Zone: $zone_name ($zone_id)"
