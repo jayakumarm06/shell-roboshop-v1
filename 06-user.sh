@@ -19,8 +19,9 @@ echo "Domain name:$domain_name"
 for domain in $@
 do
     d_name=$(aws route53 list-resource-record-sets \
-        --hosted-zone-id Z1021048SZZN7EVRRJKA \
-        --query "ResourceRecordSets[?Name == 'mongodb.']"
+    --hosted-zone-id Z1021048SZZN7EVRRJKA \
+    --output json | \
+    jq --arg name "$domain." '.ResourceRecordSets[] | select(.Name == $name)'
     )
     echo "domainname:$d_name"      
 done
