@@ -18,10 +18,12 @@ echo "filename User:$user"
 echo "+++++++++++++++++++++++"
 ## Accessing the variables from roboshop-v1 to mongodb
 
-source ./roboshop-v1.sh
+source ./roboshop-v1.sh ./01-mongodb.sh ./02-redis.sh
 
 echo "Hosted Zone Id:$hosted_zone_id" 
 echo "Domain name:$domain_name"
+echo "Mongodb filename:$mongodb"
+echo "redis filename:$redis"
 
 
 # for zone_id in $(aws route53 list-hosted-zones --output json | jq -r '.HostedZones[] | [.Id | sub("/hostedzone/"; ""), .Name] | @tsv' | while IFS=$'\t' read -r zone_id zone_name); do

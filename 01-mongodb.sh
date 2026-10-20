@@ -9,6 +9,14 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+
+echo "++++++++++++++++++++++"
+# 01-mongodb.sh
+mongodb=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
+echo "filename User:$mongodb"
+
+echo "+++++++++++++++++++++++"
+
 ## Accessing the variables from roboshop-v1 to mongodb
 
 source ./roboshop-v1.sh

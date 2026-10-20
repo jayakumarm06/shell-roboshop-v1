@@ -9,7 +9,12 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+echo "++++++++++++++++++++++"
+# 02-redis.sh
+redis=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
+echo "filename User:$redis"
 
+echo "+++++++++++++++++++++++"
 
 if [ $user_id -ne 0 ]; then
     echo "Plse choose sudo access to.."
