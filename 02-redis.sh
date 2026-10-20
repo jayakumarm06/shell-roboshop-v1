@@ -11,8 +11,8 @@ N="\e[0m"
 
 echo "++++++++++++++++++++++"
 # 02-redis.sh
-redis=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
-echo "filename User:$redis"
+redis_component=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
+echo "filename:$redis_component"
 
 echo "+++++++++++++++++++++++"
 

@@ -12,8 +12,8 @@ N="\e[0m"
 
 echo "++++++++++++++++++++++"
 # 01-mongodb.sh
-mongodb=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
-echo "filename User:$mongodb"
+mongodb_component=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
+echo "filename:$mongodb_component"
 
 echo "+++++++++++++++++++++++"
 
