@@ -26,7 +26,7 @@ echo "Hosted Zone Id:$hosted_zone_id"
 echo "Domain name:$domain_name"
 echo "Mongodb filename:$mongodb_component"
 echo "redis filename:$redis_component"
-
+echo "user filename:$user_component"
 
 # for zone_id in $(aws route53 list-hosted-zones --output json | jq -r '.HostedZones[] | [.Id | sub("/hostedzone/"; ""), .Name] | @tsv' | while IFS=$'\t' read -r zone_id zone_name); do
 #     echo "Checking Hosted Zone: $zone_name ($zone_id)"
