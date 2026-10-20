@@ -17,6 +17,9 @@ source ./roboshop-v1.sh
 echo "Hosted Zone Id:$hosted_zone_id" 
 echo "Domain name:$domain_name"
 
+dm_name=$(aws route53 get-hosted-zone --id Z1021048SZZN7EVRRJKA --output text --query "HostedZone.Name")
+ 
+echo "domainname:$dm_name"
 ## 
 
 
