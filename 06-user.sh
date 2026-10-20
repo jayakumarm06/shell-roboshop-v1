@@ -11,7 +11,8 @@ N="\e[0m"
 
 
 echo "++++++++++++++++++++++"
-echo "${0}"
+echo "basename "$0" | cut -d'.' -f1 | cut -d'-' -f2"
+
 echo "+++++++++++++++++++++++"
 ## Accessing the variables from roboshop-v1 to mongodb
 
