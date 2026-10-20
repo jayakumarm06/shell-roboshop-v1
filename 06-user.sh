@@ -18,7 +18,9 @@ echo "filename User:$user"
 echo "+++++++++++++++++++++++"
 ## Accessing the variables from roboshop-v1 to mongodb
 
-source ./roboshop-v1.sh ./01-mongodb.sh ./02-redis.sh
+source ./roboshop-v1.sh 
+source ./01-mongodb.sh 
+source ./02-redis.sh
 
 echo "Hosted Zone Id:$hosted_zone_id" 
 echo "Domain name:$domain_name"
