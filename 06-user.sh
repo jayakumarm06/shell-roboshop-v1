@@ -24,7 +24,7 @@ source ./02-redis.sh
 
 echo "Hosted Zone Id:$hosted_zone_id" 
 echo "Domain name:$domain_name"
-echo "Mongodb filename:$mongodb_component"
+echo "Mongodb filename:$mongo_component"
 echo "redis filename:$redis_component"
 echo "user filename:$user_component"
 
