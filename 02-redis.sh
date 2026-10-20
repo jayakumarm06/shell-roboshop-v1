@@ -14,6 +14,7 @@ echo "++++++++++++++++++++++"
 # redis_component=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
 # echo "filename:$redis_component"
 redis_component="redis"
+echo "filename:$redis_component"
 echo "+++++++++++++++++++++++"
 
 if [ $user_id -ne 0 ]; then
