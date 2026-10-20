@@ -18,16 +18,13 @@ echo "Hosted Zone Id:$hosted_zone_id"
 echo "Domain name:$domain_name"
 for domain in $@
 do
-    if [ $domain eq "mongodb"]; then
-        d_name=$(aws route53 list-resource-record-sets \
-        --hosted-zone-id Z1021048SZZN7EVRRJKA \
-        --output json | \
-        jq --arg name "$domain" '.ResourceRecordSets[] | select(.Name == $name)'
-        )
-        echo "domainname:$d_name"    
-    else
-        echo "no record"
-    fi  
+    echo "Domain:$domain"
+    # if [ $domain eq "mongodb" && $domain eq "redis"]; then
+    #     d_name=$(aws route53 list-resource-record-sets --hosted-zone-id Z1021048SZZN7EVRRJKA --output json | jq '.ResourceRecordSets[] | select(.Name | contains("'$domain'"))')
+    #     echo "domainname:$d_name"    
+    # else
+    #     echo "no record"
+    # fi  
 done
 
 ## 
