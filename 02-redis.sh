@@ -11,9 +11,9 @@ N="\e[0m"
 
 echo "++++++++++++++++++++++"
 # 02-redis.sh
-redis_component=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
-echo "filename:$redis_component"
-
+# redis_component=$(basename "$0" | cut -d'.' -f1 | cut -d'-' -f2)
+# echo "filename:$redis_component"
+redis_component="redis"
 echo "+++++++++++++++++++++++"
 
 if [ $user_id -ne 0 ]; then
