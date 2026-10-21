@@ -3,7 +3,7 @@
 ami_id="ami-0055977a6e828a4f4"
 instance_type="t3.micro"
 domain_name="dewsecopai.online"
-hosted_zone_id="Z1021048SZZN7EVRRJKA"
+hosted_zone_id="Z021418838T72S1RFNUW1"
 
 
 for instance in $@
