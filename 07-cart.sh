@@ -58,11 +58,11 @@ mkdir -p /app
 validate $? "Creating app directory"
 
 curl -L -o /tmp/cart.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/cart-v4.zip &>> $logs_file
-validate $? "Download user"
+validate $? "Download cart"
 
 cd /app 
 unzip /tmp/cart.zip &>> $logs_file
-validate $? "unzip catalogue project file"
+validate $? "unzip cart project file"
 
 npm install &>> $logs_file
 validate $? "Installing Dependencies"
@@ -72,10 +72,10 @@ cp "$scripts_dir/cart.service" /etc/systemd/system/cart.service
 
 systemctl daemon-reload &>> $logs_file
 systemctl enable cart &>> $logs_file
-systemctl start cart
+systemctl start cart &>> $logs_file
 validate $? "Reload and enable,start the cart service"
 
-systemctl restart cart
+systemctl restart cart &>> $logs_file
 validate $? "Restart the cart service"
 
 curl http://localhost:8080/health  | tee -a $logs_file

@@ -77,6 +77,7 @@ dnf module enable nodejs:24 -y &>> $logs_file
 dnf install nodejs -y &>> $logs_file
 validate $? "Installing nodesjs"
 
+#Application User
 id roboshop &>> $logs_file
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
@@ -106,10 +107,10 @@ cp "$scripts_dir/user.service" /etc/systemd/system/user.service
 
 systemctl daemon-reload &>> $logs_file
 systemctl enable user &>> $logs_file
-systemctl start user
+systemctl start user &>> $logs_file
 validate $? "Reload and enable,start the user service"
 
-systemctl restart user
+systemctl restart user &>> $logs_file
 validate $? "Restart the user service"
 
 

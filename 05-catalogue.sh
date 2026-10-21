@@ -74,7 +74,7 @@ cp "$scripts_dir/catalogue.service" /etc/systemd/system/catalogue.service
 
 systemctl daemon-reload &>> $logs_file
 systemctl enable catalogue &>> $logs_file
-systemctl start catalogue
+systemctl start catalogue &>> $logs_file
 validate $? "Reload and enable,start the catalogue service"
 
 cp "$scripts_dir/mongo.repo" /etc/yum.repos.d/mongo.repo 
@@ -98,7 +98,7 @@ else
 fi
 
 
-systemctl restart catalogue
+systemctl restart catalogue &>> $logs_file
 validate $? "Restart the catalogue service"
 
 curl http://localhost:8080/health  | tee -a $logs_file
