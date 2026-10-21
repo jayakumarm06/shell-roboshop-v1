@@ -59,16 +59,14 @@ unzip /tmp/frontend.zip &>> $logs_file
 validate $? "Create folder app and download the unzip project file"
 
 pwd
-# cd /app 
-# npm install &>> $logs_file
-# validate $? "Install Dependencies"
 
-# # configure the reverse proxy
-# sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/roboshop.conf"
-# cp "$scripts_dir/roboshop.conf" /etc/systemd/system/roboshop.conf
 
-# # Check syntax and errors
-# nginx -t | tee -a $logs_file
+# configure the reverse proxy
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/roboshop.conf"
+cp "$scripts_dir/roboshop.conf" /etc/nginx/default.d/roboshop.conf
+
+# Check syntax and errors
+nginx -t | tee -a $logs_file
 
 # #restart nginx
 # systemctl restart nginx
