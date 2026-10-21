@@ -68,11 +68,10 @@ validate $? "unzip catalogue project file"
 npm install &>> $logs_file
 validate $? "Installing Dependencies"
 
-sed -i "s/DOMAIN_NAME/$domain_name/g" $scripts_dir/catalogue.service
-cp $scripts_dir/catalogue.service /etc/systemd/system/catalogue.service &>> $logs_file
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/catalogue.service"
+cp "$scripts_dir/catalogue.service" /etc/systemd/system/catalogue.service
 
-# Check syntax and errors
-sshd -t | tee -a $logs_file
+echo $?
 
 # systemctl daemon-reload 
 # systemctl enable catalogue &>> $logs_file
