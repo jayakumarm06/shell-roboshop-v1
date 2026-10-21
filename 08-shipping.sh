@@ -76,7 +76,7 @@ validate $? "unzip shipping project file"
 
 mvn clean package &>> $logs_file
 validate $? "Installing dependencies"
-
+pwd
 mv target/shipping.jar shipping.jar
 validate $? "Moving shipping.jar file"
 
