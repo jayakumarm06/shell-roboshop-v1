@@ -109,8 +109,8 @@ systemctl enable user &>> $logs_file
 systemctl start user
 validate $? "Reload and enable,start the user service"
 
-systemctl restart catalogue
-validate $? "Restart the catalogue service"
+systemctl restart user
+validate $? "Restart the user service"
 
 
 curl http://localhost:8080/health  | tee -a $logs_file
