@@ -69,15 +69,10 @@ npm install &>> $logs_file
 validate $? "Installing Dependencies"
 
 sed -i "s/DOMAIN_NAME/$domain_name/g" $scripts_dir/catalogue.service
-# cp $scripts_dir/catalogue.service /etc/systemd/system/catalogue.service &>> $logs_file
-#  #
-# """
-#  #here we enter the catalogue service file and update mongodb
-#      **********************************************
+cp $scripts_dir/catalogue.service /etc/systemd/system/catalogue.service &>> $logs_file
 
-# """
-# # Check syntax and errors
-# sshd -t | tee -a $logs_file
+# Check syntax and errors
+sshd -t | tee -a $logs_file
 
 # systemctl daemon-reload 
 # systemctl enable catalogue &>> $logs_file
