@@ -91,22 +91,22 @@ cp "$scripts_dir/shipping.service" /etc/systemd/system/shipping.service
 dnf install mysql -y &>> $logs_file
 validate $? "Install mysql client"
 
-# # Load the cities data into the database
-# mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $logs_file
-# validate $? "Load cities data on mysql database"
+# Load the cities data into the database
+mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/master-data.sql 
+validate $? "Load cities data on mysql database"
 
-# # Load the app user data into the database
-# mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $logs_file
-# validate $? "Load user data on mysql database"
+# Load the app user data into the database
+mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/app-user.sql 
+validate $? "Load user data on mysql database"
 
 
-# systemctl daemon-reload &>> $logs_file
-# systemctl enable shipping &>> $logs_file
-# systemctl start shipping &>> $logs_file
-# validate $? "Reload and enable,start the shipping service"
+systemctl daemon-reload &>> $logs_file
+systemctl enable shipping &>> $logs_file
+systemctl start shipping &>> $logs_file
+validate $? "Reload and enable,start the shipping service"
 
-# systemctl restart shipping &>> $logs_file
-# validate $? "Restart the shipping service"
+systemctl restart shipping &>> $logs_file
+validate $? "Restart the shipping service"
 
 # curl http://localhost:8080/health  | tee -a $logs_file
 
