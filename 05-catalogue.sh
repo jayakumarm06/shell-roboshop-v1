@@ -83,10 +83,10 @@ validate $? "Adding Mongodb repo"
 dnf install mongodb-mongosh -y &>> $logs_file
 validate $? "Install mongodb client"
 
-pwd
-echo "$pwd"
+# pwd
+# echo "$pwd"
 # # Load the data only once 
-# mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
+mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
 # validate $? "Load data on mongodb"
 
 
