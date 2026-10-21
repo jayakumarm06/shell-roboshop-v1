@@ -73,7 +73,7 @@ validate $? "Download shipping"
 cd /app 
 unzip /tmp/shipping.zip &>> $logs_file
 validate $? "unzip shipping project file"
-
+pwd
 mvn clean package &>> $logs_file
 validate $? "Installing dependencies"
 pwd
