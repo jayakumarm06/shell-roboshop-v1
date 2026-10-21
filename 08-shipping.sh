@@ -75,39 +75,39 @@ unzip /tmp/shipping.zip &>> $logs_file
 validate $? "unzip shipping project file"
 
 mvn clean package &>> $logs_file
-validate $? "Installing dependencies
+validate $? "Installing dependencies"
 
 pwd
 mv target/shipping.jar shipping.jar
 validate $? "Moving shipping.jar file"
 
-# create a system user and service
-sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/shipping.service"
-cp "$scripts_dir/shipping.service" /etc/systemd/system/shipping.service
+# # create a system user and service
+# sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/shipping.service"
+# cp "$scripts_dir/shipping.service" /etc/systemd/system/shipping.service
 
 
-# Load master data
-dnf install mysql -y &>> $logs_file
-validate $? "Install mysql client"
+# # Load master data
+# dnf install mysql -y &>> $logs_file
+# validate $? "Install mysql client"
 
-# Load the cities data into the database
-mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $logs_file
-validate $? "Load cities data on mysql database"
+# # Load the cities data into the database
+# mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $logs_file
+# validate $? "Load cities data on mysql database"
 
-# Load the app user data into the database
-mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $logs_file
-validate $? "Load user data on mysql database"
+# # Load the app user data into the database
+# mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $logs_file
+# validate $? "Load user data on mysql database"
 
 
-systemctl daemon-reload &>> $logs_file
-systemctl enable shipping &>> $logs_file
-systemctl start shipping &>> $logs_file
-validate $? "Reload and enable,start the shipping service"
+# systemctl daemon-reload &>> $logs_file
+# systemctl enable shipping &>> $logs_file
+# systemctl start shipping &>> $logs_file
+# validate $? "Reload and enable,start the shipping service"
 
-systemctl restart shipping &>> $logs_file
-validate $? "Restart the shipping service"
+# systemctl restart shipping &>> $logs_file
+# validate $? "Restart the shipping service"
 
-curl http://localhost:8080/health  | tee -a $logs_file
+# curl http://localhost:8080/health  | tee -a $logs_file
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
