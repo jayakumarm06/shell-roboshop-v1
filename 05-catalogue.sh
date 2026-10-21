@@ -42,9 +42,12 @@ echo "$(timestamp) [INFO] ===== Script Started Execution =======" | tee -a $logs
 # dnf install nodejs -y &>> $logs_file
 # validate $? "Installing nodesjs"
 
-
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-validate $? "Create a user for nodesjs"
+id roboshop &>> $logs_file
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    validate $? "Creating a system user"
+else
+    echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
 
 # mkdir /app &>> $logs_file
 # curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip &>> $logs_file
