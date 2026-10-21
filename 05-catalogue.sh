@@ -87,13 +87,13 @@ validate $? "Install mongodb client"
 # echo "$pwd"
 # # Load the data only once 
 mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
-# validate $? "Load data on mongodb"
+validate $? "Load data on mongodb"
 
 
-# systemctl restart catalogue
-# validate $? "Restart the catalogue service"
+systemctl restart catalogue
+validate $? "Restart the catalogue service"
 
-# curl http://localhost:8080/health  | tee -a $logs_file
+curl http://localhost:8080/health  | tee -a $logs_file
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
