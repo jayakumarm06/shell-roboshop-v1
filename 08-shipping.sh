@@ -47,19 +47,19 @@ validate $? "Installing maven and java"
 alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java"
 validate $? "Setting Java 25 as default Java version"
 
-# echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh &>> $logs_file
-# source /etc/profile.d/java.sh | tee -a $logs_file
-# echo $JAVA_HOME | tee -a $logs_file
-# validate $? "Setting java path for maven"
+echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh &>> $logs_file
+source /etc/profile.d/java.sh | tee -a $logs_file
+echo $JAVA_HOME | tee -a $logs_file
+validate $? "Setting java path for maven"
 
-# #Application User
-# id roboshop &>> $logs_file
-# if [ $? -ne 0 ]; then
-#     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-#     validate $? "Creating a system user"
-# else
-#     echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
-# fi
+#Application User
+id roboshop &>> $logs_file
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    validate $? "Creating a system user"
+else
+    echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
+fi
 
 # rm -rf /app
 # validate $? "Removing old Code"
