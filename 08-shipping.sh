@@ -44,14 +44,14 @@ dnf module enable maven:3.9 -y &>> $logs_file
 dnf install maven java-25-openjdk-devel -y &>> $logs_file
 validate $? "Installing maven and java"
 
-# alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java"
-# validate $? "Setting Java 25 as default Java version"
-# echo $?
+alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java"
+validate $? "Setting Java 25 as default Java version"
 
-# echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh &>> $logs_file
-# source /etc/profile.d/java.sh 
-# echo $JAVA_HOME 
-# validate $? "Setting java path for maven"
+
+echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh &>> $logs_file
+source /etc/profile.d/java.sh 
+echo $JAVA_HOME 
+validate $? "Setting java path for maven"
 
 # #Application User
 # id roboshop &>> $logs_file
