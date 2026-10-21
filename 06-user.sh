@@ -77,43 +77,43 @@ dnf module enable nodejs:24 -y &>> $logs_file
 dnf install nodejs -y &>> $logs_file
 validate $? "Installing nodesjs"
 
-# id roboshop &>> $logs_file
-# if [ $? -ne 0 ]; then
-#     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-#     validate $? "Creating a system user"
-# else
-#     echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
-# fi
+id roboshop &>> $logs_file
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    validate $? "Creating a system user"
+else
+    echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
+fi
 
-# rm -rf /app
-# validate $? "Removing old Code"
+rm -rf /app
+validate $? "Removing old Code"
 
-# mkdir -p /app 
-# validate $? "Creating app directory"
+mkdir -p /app 
+validate $? "Creating app directory"
 
-# curl -L -o /tmp/user.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/user-v4.zip &>> $logs_file
-# validate $? "Download user"
+curl -L -o /tmp/user.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/user-v4.zip &>> $logs_file
+validate $? "Download user"
 
-# cd /app 
-# unzip /tmp/user.zip &>> $logs_file
-# validate $? "unzip catalogue project file"
+cd /app 
+unzip /tmp/user.zip &>> $logs_file
+validate $? "unzip catalogue project file"
 
-# npm install &>> $logs_file
-# validate $? "Installing Dependencies"
+npm install &>> $logs_file
+validate $? "Installing Dependencies"
 
-# sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/user.service"
-# cp "$scripts_dir/user.service" /etc/systemd/system/user.service
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/user.service"
+cp "$scripts_dir/user.service" /etc/systemd/system/user.service
 
-# systemctl daemon-reload &>> $logs_file
-# systemctl enable user &>> $logs_file
-# systemctl start user
-# validate $? "Reload and enable,start the user service"
+systemctl daemon-reload &>> $logs_file
+systemctl enable user &>> $logs_file
+systemctl start user
+validate $? "Reload and enable,start the user service"
 
-# systemctl restart catalogue
-# validate $? "Restart the catalogue service"
+systemctl restart catalogue
+validate $? "Restart the catalogue service"
 
 
-# curl http://localhost:8080/health  | tee -a $logs_file
+curl http://localhost:8080/health  | tee -a $logs_file
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
