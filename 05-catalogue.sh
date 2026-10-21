@@ -68,8 +68,8 @@ validate $? "unzip catalogue project file"
 npm install &>> $logs_file
 validate $? "Installing Dependencies"
 
-# sed -i "s/DOMAIN_NAME/$domain_name/g" catalogue.service
-# cp catalogue.service /etc/systemd/system/catalogue.service &>> $logs_file
+sed -i "s/DOMAIN_NAME/$domain_name/g" $scripts_dir/catalogue.service
+# cp $scripts_dir/catalogue.service /etc/systemd/system/catalogue.service &>> $logs_file
 #  #
 # """
 #  #here we enter the catalogue service file and update mongodb
