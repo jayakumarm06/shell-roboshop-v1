@@ -4,6 +4,8 @@ user_id=$(id -u)
 
 logs_folder="/var/log/shell-practice"
 logs_file="${logs_folder}/${0}.log"
+scripts_dir=$( dirname "$( realpath "$0")")
+echo "scripts_dir"
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -66,7 +68,7 @@ validate $? "unzip catalogue project file"
 npm install &>> $logs_file
 validate $? "Installing Dependencies"
 
-sed -i "s/DOMAIN_NAME/$domain_name/g" catalogue.service
+# sed -i "s/DOMAIN_NAME/$domain_name/g" catalogue.service
 # cp catalogue.service /etc/systemd/system/catalogue.service &>> $logs_file
 #  #
 # """
