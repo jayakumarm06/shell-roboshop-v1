@@ -4,12 +4,13 @@ user_id=$(id -u)
 
 logs_folder="/var/log/shell-practice"
 logs_file="${logs_folder}/${0}.log"
+scripts_dir=$(dirname "$(realpath "$0")")
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-
+source ./roboshop-v1.sh
 
 if [ $user_id -ne 0 ]; then
     echo "Plse choose sudo access to.."
@@ -44,7 +45,7 @@ validate $? "Installing nginx"
 
 #Enable and start nginx
 systemctl enable nginx &>> $logs_file
-systemctl start nginx
+systemctl start nginx &>> $logs_file
 validate $? "Reload and enable,start the nginx service"
 
 
@@ -53,22 +54,18 @@ validate $? "Remove the default html page"
 
 # Download aand extract frontend files
 curl -L -o /tmp/frontend.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/frontend-v4.zip &>> $logs_file
-cd /usr/share/nginx/html &>> $logs_file
+cd /usr/share/nginx/html 
 unzip /tmp/frontend.zip &>> $logs_file
 validate $? "Create folder app and download the unzip project file"
 
-cd /app &>> $logs_file
+cd /app 
 npm install &>> $logs_file
-validate $? "Go the /app folder and run npm command"
+validate $? "Install Dependencies"
 
 # configure the reverse proxy
-cp roboshop.conf /etc/systemd/system/roboshop.conf &>> $logs_file
- #
-"""
- #here we enter the roboshop.conf file and update all the services
-     **********************************************
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/roboshop.conf"
+cp "$scripts_dir/roboshop.conf" /etc/systemd/system/roboshop.conf
 
-"""
 # Check syntax and errors
 nginx -t | tee -a $logs_file
 
