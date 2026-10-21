@@ -4,11 +4,13 @@ user_id=$(id -u)
 
 logs_folder="/var/log/shell-practice"
 logs_file="${logs_folder}/${0}.log"
+scripts_dir=$(dirname "$(realpath "$0")")
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+source ./roboshop-v1.sh
 
 
 if [ $user_id -ne 0 ]; then
@@ -40,37 +42,46 @@ echo "$(timestamp) [INFO] ===== Script Started Execution =======" | tee -a $logs
 dnf install golang -y &>> $logs_file
 validate $? "Installing golang package"
 
-# creata a appication user
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-validate $? "Create a application user"
+#Application User
+id roboshop &>> $logs_file
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    validate $? "Creating a system user"
+else
+    echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
+fi
 
-mkdir /app &>> $logs_file
+
+rm -rf /app
+validate $? "Removing old Code"
+
+mkdir -p /app 
+validate $? "Creating app directory"
+
 curl -L -o /tmp/dispatch.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/dispatch-v4.zip &>> $logs_file
-cd /app &>> $logs_file
-unzip /tmp/dispatch.zip &>> $logs_file
-validate $? "Create folder app and download the unzip project file"
+validate $? "Download dispatch"
 
-cd /app &>> $logs_file
+cd /app 
+unzip /tmp/dispatch.zip &>> $logs_file
+validate $? "unzip dispatch project file"
+
+cd /app 
 go build -o dispatch  &>> $logs_file
-validate $? "downalod and install all libraries"
+validate $? "Installaling libraries"
 
 # configure sytemd service and for particular user
-cp dispatch.service /etc/systemd/system/dispatch.service &>> $logs_file
- #
-"""
- #here we enter the dispatch service file and update rabbitmq
-     **********************************************
-
-"""
-# Check syntax and errors
-sshd -t | tee -a $logs_file
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/dispatch.service"
+cp "$scripts_dir/dispatch.service" /etc/systemd/system/dispatch.service
 
 # Load and start service
-systemctl daemon-reload 
+systemctl daemon-reload &>> $logs_file
 systemctl enable dispatch &>> $logs_file
-systemctl start dispatch
+systemctl start dispatch &>> $logs_file
 validate $? "Reload and enable,start the dispatch service"
 
+
+systemctl restart dispatch &>> $logs_file
+validate $? "Restart the dispatch service"
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
