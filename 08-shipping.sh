@@ -82,14 +82,14 @@ validate $? "Installing dependencies"
 mv target/shipping.jar shipping.jar
 validate $? "Moving shipping.jar file"
 
-# # create a system user and service
-# sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/shipping.service"
-# cp "$scripts_dir/shipping.service" /etc/systemd/system/shipping.service
+# create a system user and service
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/shipping.service"
+cp "$scripts_dir/shipping.service" /etc/systemd/system/shipping.service
 
 
-# # Load master data
-# dnf install mysql -y &>> $logs_file
-# validate $? "Install mysql client"
+# Load master data
+dnf install mysql -y &>> $logs_file
+validate $? "Install mysql client"
 
 # # Load the cities data into the database
 # mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $logs_file
