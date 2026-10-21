@@ -9,7 +9,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-.source ./roboshop-v1.sh
+source ./roboshop-v1.sh
 
 if [ $user_id -ne 0 ]; then
     echo "Plse choose sudo access to.."
