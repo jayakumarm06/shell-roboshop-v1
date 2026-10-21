@@ -96,5 +96,3 @@ validate $? "Restart the catalogue service"
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
 echo "$(timestamp) [INFO] ===== Script completed Execution =======" | tee -a $logs_file
-
-
