@@ -44,39 +44,41 @@ dnf module enable maven:3.9 -y &>> $logs_file
 dnf install maven java-25-openjdk-devel -y &>> $logs_file
 validate $? "Installing maven and java"
 
-# alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java"
-# validate $? "Setting Java 25 as default Java version"
+alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java"
+validate $? "Setting Java 25 as default Java version"
 
 echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh &>> $logs_file
 source /etc/profile.d/java.sh | tee -a $logs_file
 echo $JAVA_HOME | tee -a $logs_file
 validate $? "Setting java path for maven"
 
-#Application User
-id roboshop &>> $logs_file
-if [ $? -ne 0 ]; then
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-    validate $? "Creating a system user"
-else
-    echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
-fi
+java -version
 
-rm -rf /app
-validate $? "Removing old Code"
+# #Application User
+# id roboshop &>> $logs_file
+# if [ $? -ne 0 ]; then
+#     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+#     validate $? "Creating a system user"
+# else
+#     echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
+# fi
 
-mkdir -p /app 
-validate $? "Creating app directory"
+# rm -rf /app
+# validate $? "Removing old Code"
 
-curl -L -o /tmp/shipping.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/shipping-v4.zip &>> $logs_file
-validate $? "Download shipping"
+# mkdir -p /app 
+# validate $? "Creating app directory"
 
-cd /app 
-unzip /tmp/shipping.zip &>> $logs_file
-validate $? "unzip shipping project file"
-pwd
-mvn clean package &>> $logs_file
-validate $? "Installing dependencies"
-pwd
+# curl -L -o /tmp/shipping.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/shipping-v4.zip &>> $logs_file
+# validate $? "Download shipping"
+
+# cd /app 
+# unzip /tmp/shipping.zip &>> $logs_file
+# validate $? "unzip shipping project file"
+# pwd
+# mvn clean package &>> $logs_file
+# validate $? "Installing dependencies"
+# pwd
 # mv target/shipping.jar shipping.jar
 # validate $? "Moving shipping.jar file"
 
