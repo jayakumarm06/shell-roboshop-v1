@@ -48,6 +48,7 @@ if [ $? -ne 0 ]; then
     validate $? "Creating a system user"
 else
     echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
+fi
 
 # mkdir /app &>> $logs_file
 # curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip &>> $logs_file
