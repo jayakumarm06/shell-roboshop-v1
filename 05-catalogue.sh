@@ -68,29 +68,28 @@ validate $? "unzip catalogue project file"
 npm install &>> $logs_file
 validate $? "Installing Dependencies"
 
-sed -i "s/DOMAIN_NAME/$domain_name/g" $scripts_dir/catalogue.service
-cp $scripts_dir/catalogue.service /etc/systemd/system/catalogue.service
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/catalogue.service"
+cp "$scripts_dir/catalogue.service" /etc/systemd/system/catalogue.service
 
-echo $?
 
-# systemctl daemon-reload 
-# systemctl enable catalogue &>> $logs_file
-# systemctl start catalogue
-# validate $? "Reload and enable,start the catalogue service"
+systemctl daemon-reload &>> $logs_file
+systemctl enable catalogue &>> $logs_file
+systemctl start catalogue
+validate $? "Reload and enable,start the catalogue service"
 
-# cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $logs_file
+cp "$scripts_dir/mongo.repo /etc/yum.repos.d/mongo.repo 
+validate $? "Adding Mongodb repo"
 
-# dnf install mongodb-mongosh -y &>> $logs_file
-# validate $? "Install mongodb client"
+dnf install mongodb-mongosh -y &>> $logs_file
+validate $? "Install mongodb client"
 
-# # Load the data only once 
-# mongosh --host <MONGODB-SERVER-IPADDRESS> </app/db/master-data.js &>> $logs_file
-# validate $? "Load data on mongodb"
+# Load the data only once 
+mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
+validate $? "Load data on mongodb"
 
-# systemctl daemon-reload 
-# systemctl enable catalogue &>> $logs_file
-# systemctl start catalogue
-# validate $? "Reload and enable,start the catalogue service"
+
+systemctl restart catalogue
+validate $? "Restart the catalogue service"
 
 # curl http://localhost:8080/health  | tee -a $logs_file
 
