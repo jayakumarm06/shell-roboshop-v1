@@ -58,23 +58,24 @@ cd /usr/share/nginx/html
 unzip /tmp/frontend.zip &>> $logs_file
 validate $? "Create folder app and download the unzip project file"
 
-cd /app 
-npm install &>> $logs_file
-validate $? "Install Dependencies"
+pwd
+# cd /app 
+# npm install &>> $logs_file
+# validate $? "Install Dependencies"
 
-# configure the reverse proxy
-sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/roboshop.conf"
-cp "$scripts_dir/roboshop.conf" /etc/systemd/system/roboshop.conf
+# # configure the reverse proxy
+# sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/roboshop.conf"
+# cp "$scripts_dir/roboshop.conf" /etc/systemd/system/roboshop.conf
 
-# Check syntax and errors
-nginx -t | tee -a $logs_file
+# # Check syntax and errors
+# nginx -t | tee -a $logs_file
 
-#restart nginx
-systemctl restart nginx
-validate $? "Restart nginx service"
+# #restart nginx
+# systemctl restart nginx
+# validate $? "Restart nginx service"
 
-curl http://localhost:8080/health  | tee -a $logs_file
-curl http://localhost/api/catalogue/health | tee -a $logs_file
+# curl http://localhost:8080/health  | tee -a $logs_file
+# curl http://localhost/api/catalogue/health | tee -a $logs_file
 
 
 #Here SECONDS is built in variables easy to use 
