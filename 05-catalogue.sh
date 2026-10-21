@@ -9,7 +9,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-
+.source ./roboshop-v1.sh
 
 if [ $user_id -ne 0 ]; then
     echo "Plse choose sudo access to.."
@@ -50,17 +50,23 @@ else
     echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
 fi
 
-# mkdir /app &>> $logs_file
-# curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip &>> $logs_file
-# cd /app &>> $logs_file
-# unzip /tmp/catalogue.zip &>> $logs_file
-# validate $? "Create folder app and download the unzip project file"
+rm -rf /app
+validate $? "Removing old Code"
 
-# cd /app &>> $logs_file
-# npm install &>> $logs_file
-# validate $? "Go the /app folder and run npm command"
+mkdir-p /app 
+validate $? "Creating app directory"
 
+curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip &>> $logs_file
+validate $? "Download Catalogue"
 
+cd /app 
+unzip /tmp/catalogue.zip &>> $logs_file
+validate $? "unzip catalogue project file"
+
+npm install &>> $logs_file
+validate $? "Installing Dependencies"
+
+sed -i "s/DOMAIN_NAME/$domain_name/g" catalogue.service
 # cp catalogue.service /etc/systemd/system/catalogue.service &>> $logs_file
 #  #
 # """
@@ -70,6 +76,11 @@ fi
 # """
 # # Check syntax and errors
 # sshd -t | tee -a $logs_file
+
+# systemctl daemon-reload 
+# systemctl enable catalogue &>> $logs_file
+# systemctl start catalogue
+# validate $? "Reload and enable,start the catalogue service"
 
 # cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $logs_file
 
