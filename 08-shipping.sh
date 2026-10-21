@@ -52,30 +52,28 @@ source /etc/profile.d/java.sh | tee -a $logs_file
 echo $JAVA_HOME | tee -a $logs_file
 validate $? "Setting java path for maven"
 
-java -version
+#Application User
+id roboshop &>> $logs_file
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    validate $? "Creating a system user"
+else
+    echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
+fi
 
-# #Application User
-# id roboshop &>> $logs_file
-# if [ $? -ne 0 ]; then
-#     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-#     validate $? "Creating a system user"
-# else
-#     echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
-# fi
+rm -rf /app
+validate $? "Removing old Code"
 
-# rm -rf /app
-# validate $? "Removing old Code"
+mkdir -p /app 
+validate $? "Creating app directory"
 
-# mkdir -p /app 
-# validate $? "Creating app directory"
+curl -L -o /tmp/shipping.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/shipping-v4.zip &>> $logs_file
+validate $? "Download shipping"
 
-# curl -L -o /tmp/shipping.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/shipping-v4.zip &>> $logs_file
-# validate $? "Download shipping"
-
-# cd /app 
-# unzip /tmp/shipping.zip &>> $logs_file
-# validate $? "unzip shipping project file"
-# pwd
+cd /app 
+unzip /tmp/shipping.zip &>> $logs_file
+validate $? "unzip shipping project file"
+pwd
 # mvn clean package &>> $logs_file
 # validate $? "Installing dependencies"
 # pwd
