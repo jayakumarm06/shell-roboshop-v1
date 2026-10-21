@@ -4,12 +4,13 @@ user_id=$(id -u)
 
 logs_folder="/var/log/shell-practice"
 logs_file="${logs_folder}/${0}.log"
+scripts_dir=$(dirname "$(realpath "$0")")
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-
+.source ./roboshop-v1.sh
 
 if [ $user_id -ne 0 ]; then
     echo "Plse choose sudo access to.."
@@ -42,34 +43,40 @@ dnf module enable nodejs:24 -y &>> $logs_file
 dnf install nodejs -y &>> $logs_file
 validate $? "Installing nodesjs"
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-validate $? "Create a user for application"
+id roboshop &>> $logs_file
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    validate $? "Creating a system user"
+else
+    echo -e "$(timestamp) [INFO] System user roboshop already exist...${Y}SKIPPING${N}"
+fi
 
-mkdir /app &>> $logs_file
+rm -rf /app
+validate $? "Removing old Code"
+
+mkdir -p /app 
+validate $? "Creating app directory"
+
 curl -L -o /tmp/cart.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/cart-v4.zip &>> $logs_file
-cd /app &>> $logs_file
+validate $? "Download user"
+
+cd /app 
 unzip /tmp/cart.zip &>> $logs_file
-validate $? "Create folder app and download the unzip project file"
+validate $? "unzip catalogue project file"
 
-cd /app &>> $logs_file
 npm install &>> $logs_file
-validate $? "Go the /app folder and run npm command"
+validate $? "Installing Dependencies"
 
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/cart.service"
+cp "$scripts_dir/cart.service" /etc/systemd/system/cart.service 
 
-cp cart.service /etc/systemd/system/cart.service &>> $logs_file
- #
-"""
- #here we enter the cart service file and update redis and catalogue
-     **********************************************
-
-"""
-# Check syntax and errors
-sshd -t | tee -a $logs_file
-
-systemctl daemon-reload 
+systemctl daemon-reload &>> $logs_file
 systemctl enable cart &>> $logs_file
 systemctl start cart
 validate $? "Reload and enable,start the cart service"
+
+systemctl restart cart
+validate $? "Restart the cart service"
 
 curl http://localhost:8080/health  | tee -a $logs_file
 
