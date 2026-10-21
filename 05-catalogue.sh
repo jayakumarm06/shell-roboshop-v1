@@ -83,13 +83,14 @@ validate $? "Adding Mongodb repo"
 dnf install mongodb-mongosh -y &>> $logs_file
 validate $? "Install mongodb client"
 
-# Load the data only once 
-mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
-validate $? "Load data on mongodb"
+pwd
+# # Load the data only once 
+# mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
+# validate $? "Load data on mongodb"
 
 
-systemctl restart catalogue
-validate $? "Restart the catalogue service"
+# systemctl restart catalogue
+# validate $? "Restart the catalogue service"
 
 # curl http://localhost:8080/health  | tee -a $logs_file
 
