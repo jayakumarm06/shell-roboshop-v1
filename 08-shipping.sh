@@ -78,8 +78,8 @@ mvn clean package &>> $logs_file
 validate $? "Installing dependencies"
 
 pwd
-mv target/shipping.jar shipping.jar
-validate $? "Moving shipping.jar file"
+# mv target/shipping.jar shipping.jar
+# validate $? "Moving shipping.jar file"
 
 # # create a system user and service
 # sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/shipping.service"
