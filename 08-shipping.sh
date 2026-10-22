@@ -92,8 +92,13 @@ dnf install mysql -y &>> $logs_file
 validate $? "Install mysql client"
 
 # Load the cities data into the database
-mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/master-data.sql 
-validate $? "Load cities data on mysql database"
+count=$(mysql -h "mysql.$domain_name" -u root -pRoboShop@1 -N -B -e "SELECT COUNT(*) FROM cities.cities;" 2>> $logs_file )
+if [ -z "$count" ] || [ "$count" -eq 0 ]; then
+    mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/master-data.sql
+    validate $? "Loading shipping data"
+else
+    echo -e "$(timestamp) [INFO] Master data already loaded...${Y}SKIPPING${N}"
+fi
 
 # Load the app user data into the database
 mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/app-user.sql 
@@ -102,13 +107,11 @@ validate $? "Load user data on mysql database"
 
 systemctl daemon-reload &>> $logs_file
 systemctl enable shipping &>> $logs_file
-systemctl start shipping &>> $logs_file
-validate $? "Reload and enable,start the shipping service"
-
 systemctl restart shipping &>> $logs_file
 validate $? "Restart the shipping service"
 
-# curl http://localhost:8080/health  | tee -a $logs_file
+
+
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
