@@ -78,7 +78,6 @@ validate $? "Reload and enable,start the cart service"
 systemctl restart cart &>> $logs_file
 validate $? "Restart the cart service"
 
-curl http://localhost:8080/health  | tee -a $logs_file
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
