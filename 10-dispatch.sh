@@ -76,12 +76,9 @@ cp "$scripts_dir/dispatch.service" /etc/systemd/system/dispatch.service
 # Load and start service
 systemctl daemon-reload &>> $logs_file
 systemctl enable dispatch &>> $logs_file
-systemctl start dispatch &>> $logs_file
-validate $? "Reload and enable,start the dispatch service"
-
-
 systemctl restart dispatch &>> $logs_file
 validate $? "Restart the dispatch service"
+
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
