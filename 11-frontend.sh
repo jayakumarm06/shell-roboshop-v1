@@ -63,15 +63,12 @@ sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/roboshop.conf"
 cp "$scripts_dir/roboshop.conf" /etc/nginx/default.d/roboshop.conf
 
 # Check syntax and errors
-nginx -t | tee -a $logs_file
+nginx -t &>> $logs_file
+validate $? "nginx configuration"
 
 #restart nginx
 systemctl restart nginx
 validate $? "Restart nginx service"
-
-curl http://localhost:8080/health  | tee -a $logs_file
-curl http://localhost/api/catalogue/health | tee -a $logs_file
-
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
