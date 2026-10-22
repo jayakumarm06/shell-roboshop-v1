@@ -84,24 +84,21 @@ dnf install mongodb-mongosh -y &>> $logs_file
 validate $? "Install mongodb client"
 
 # Load the data only once 
-mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
-validate $? "Load data on mongodb"
+product_count=$(mongosh --host "mongodb.$domain_name" --quiet --eval 'db.getSiblingDB("catalogue").products.countDocuments()' 2>> $logs_file)
+validate $? "Connecting to MongoDB"
 
-# product_count=$(mongosh --host "mongodb.$domain_name" --quiet --eval 'db.getSiblingDB("catalogue").products.countDocuments()' 2>> $logs_file)
-# validate $? "Connecting to MongoDB"
-
-# if [ "$product_count" -eq 0 ]; then
-#     mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
-#     validate $? "Loading products"
-# else
-#     echo -e "$(timestamp) [INFO] Products are already loaded...${Y}SKIPPING${N}"
-# fi
+if [ "$product_count" -eq 0 ]; then
+    mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
+    validate $? "Loading products"
+else
+    echo -e "$(timestamp) [INFO] Products are already loaded...${Y}SKIPPING${N}"
+fi
 
 
 systemctl restart catalogue &>> $logs_file
 validate $? "Restart the catalogue service"
 
-# curl http://localhost:8080/health  | tee -a $logs_file
+curl http://localhost:8080/health  | tee -a $logs_file
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
