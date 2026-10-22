@@ -66,11 +66,12 @@ unzip /tmp/payment.zip &>> $logs_file
 validate $? "unzip payment project file"
 
 
-cd /app 
 #creata a virtual environment for this project and install requirments file to this virtual environment
 python3.14 -m venv /app/.venv &>> $logs_file
+validate $? "Creata Virtual environment"
+
 /app/.venv/bin/pip install -r requirements.txt &>> $logs_file 
-validate $? "Creata Virtual environment and install requirments"
+validate $? "Installing dependencies"
 
 # configure sytemd service and for particular user
 sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/payment.service"
@@ -78,14 +79,9 @@ cp "$scripts_dir/payment.service" /etc/systemd/system/payment.service
 
 systemctl daemon-reload  &>> $logs_file
 systemctl enable payment &>> $logs_file
-systemctl start payment &>> $logs_file
-validate $? "Reload and enable,start the payment service"
-
-
 systemctl restart payment &>> $logs_file
 validate $? "Restart the payment service"
 
-curl http://localhost:8080/health  | tee -a $logs_file
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
