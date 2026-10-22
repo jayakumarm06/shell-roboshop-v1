@@ -101,7 +101,7 @@ validate $? "Load data on mongodb"
 systemctl restart catalogue &>> $logs_file
 validate $? "Restart the catalogue service"
 
-curl http://localhost:8080/health  | tee -a $logs_file
+# curl http://localhost:8080/health  | tee -a $logs_file
 
 #Here SECONDS is built in variables easy to use 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
